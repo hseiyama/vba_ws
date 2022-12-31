@@ -23,8 +23,8 @@ Private m_intRow As Integer
 
 '‰Šú‰»ˆ—
 Public Sub Init(ByRef obj_Sheet As Worksheet)
-    Set m_objSheet = obj_Sheet
     '•Ï”‚Ì‰Šú‰»
+    Set m_objSheet = obj_Sheet
     m_intRow = INT_ROW_START
 End Sub
 
