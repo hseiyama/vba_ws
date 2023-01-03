@@ -9,9 +9,6 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = True
 Option Explicit
 
-'“à•”’è”
-Private Const STR_RTE_FILE As String = "rte_model.c"
-
 Private Sub RteInfoFile_Click()
     Dim str_FileName As String
     'RTEî•ñƒtƒ@ƒCƒ‹–¼‚Ìæ“¾
@@ -28,7 +25,7 @@ Private Sub RteCodePath_Click()
         If .Show = 0 Then
             Exit Sub
         End If
-        Me.Range(mdl_Input.STR_RNG_RTE_CODE_FILE).Value = .SelectedItems(1) & "\" & STR_RTE_FILE
+        Me.Range(mdl_Input.STR_RNG_RTE_CODE_FILE).Value = .SelectedItems(1) & "\" & mdl_Main.STR_RTE_FILE
     End With
 End Sub
 

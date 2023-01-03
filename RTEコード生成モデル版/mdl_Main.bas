@@ -1,6 +1,9 @@
 Attribute VB_Name = "mdl_Main"
 Option Explicit
 
+'ŠO•”’è”
+Public Const STR_RTE_FILE As String = "rte_model.c"
+
 '“à•”’è”
 Private Const STR_PREFIX_BUS As String = "bus"
 
