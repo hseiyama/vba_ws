@@ -31,8 +31,8 @@ End Sub
 'テキスト読込み処理
 Public Function ReadText() As Boolean
     '各項目の読込み
-    If m_objSheet.Cells(m_intRow, INT_COL_CHECK) <> "" Then
-        str_Text = m_objSheet.Cells(m_intRow, INT_COL_TEXT)
+    If m_objSheet.Cells(m_intRow, INT_COL_CHECK).Value <> "" Then
+        str_Text = m_objSheet.Cells(m_intRow, INT_COL_TEXT).Value
         ReadText = True
     Else
         ReadText = False
