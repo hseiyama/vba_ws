@@ -13,18 +13,38 @@ Private Const STR_FILE_TEMP As String = "rte_struct.temp"
 Public Function EditRteFile(ByRef str_Path As String) As Boolean
     Dim str_Command As String
     Dim bln_Rcode As Boolean
-    'インクルード追加処理
-    Call AddInclude(str_Path)
-    'コマンド実行（ファイル削除）
-    str_Command = "DEL " & str_Path & "\" & STR_FILE_TARGET
-    bln_Rcode = ExecuteCommand(str_Command)
+    '編集対象ファイル確認
+    bln_Rcode = CheckTargetFile(str_Path)
     If bln_Rcode Then
-        'コマンド実行（ファイル名変更）
-        str_Command = "REN " & str_Path & "\" & STR_FILE_TEMP & " " & STR_FILE_TARGET
+        'インクルード追加処理
+        Call AddInclude(str_Path)
+        'コマンド実行（ファイル削除）
+        str_Command = "DEL " & str_Path & "\" & STR_FILE_TARGET
         bln_Rcode = ExecuteCommand(str_Command)
+        If bln_Rcode Then
+            'コマンド実行（ファイル名変更）
+            str_Command = "REN " & str_Path & "\" & STR_FILE_TEMP & " " & STR_FILE_TARGET
+            bln_Rcode = ExecuteCommand(str_Command)
+        End If
     End If
     '戻り値の設定
     EditRteFile = bln_Rcode
+End Function
+
+'編集対象ファイル確認
+Private Function CheckTargetFile(ByRef str_Path As String) As Boolean
+    Dim str_FilePath As String
+    Dim bln_Rcode As Boolean
+    '初期化処理
+    bln_Rcode = True
+    'ファイルの存在を確認
+    str_FilePath = str_Path & "\" & STR_FILE_TARGET
+    If Dir(str_FilePath) = "" Then
+        MsgBox "編集対象のファイルが存在しません。" & vbCrLf & str_FilePath, _
+            vbOKOnly + vbExclamation, "編集対象ファイル確認"
+        bln_Rcode = False
+    End If
+    CheckTargetFile = bln_Rcode
 End Function
 
 'インクルード追加処理
