@@ -34,6 +34,14 @@ Public Sub GenerateCode()
     Call Finalize
 End Sub
 
+'既存RTEファイル編集処理
+Public Function EditRteExistFile() As Boolean
+    '各モジュールの初期化処理
+    Call mdl_Input.Init
+    'RTEファイル編集処理
+    EditRteExistFile = mdl_RteFile.EditRteFile(mdl_Input.rng_RteCodePath.Value)
+End Function
+
 '初期化処理
 Private Sub Initialize()
     '前処理
@@ -41,7 +49,7 @@ Private Sub Initialize()
     Set obj_Footer = New cls_Reader
     '各モジュールの初期化処理
     Call mdl_Input.Init
-    Call mdl_Output.Init(mdl_Input.rng_RteCodeFile.Value)
+    Call mdl_Output.Init(mdl_Input.rng_RteCodePath.Value & "\" & STR_RTE_FILE)
     Call obj_Header.Init(sht_Header)
     Call obj_Footer.Init(sht_Footer)
 End Sub

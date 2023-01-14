@@ -3,7 +3,7 @@ Option Explicit
 
 'ŠO•”’è”
 Public Const STR_RNG_RTE_INFO_FILE As String = "B1"
-Public Const STR_RNG_RTE_CODE_FILE As String = "B2"
+Public Const STR_RNG_RTE_CODE_PATH As String = "B2"
 
 '“à•”’è”
 Private Const INT_ROW_START As Integer = 6
@@ -17,7 +17,7 @@ Private Const STR_RNG_RTE_INFO_LIST As String = "A" & INT_ROW_START & ":E1048576
 
 'ŠO•”ŒöŠJ•Ï”
 Public rng_RteInfoFile As Range
-Public rng_RteCodeFile As Range
+Public rng_RteCodePath As Range
 Public rng_RteInfoList As Range
 Public str_ModuleName As String
 Public str_Attribute As String
@@ -33,7 +33,7 @@ Private int_Row As Integer
 Public Sub Init()
     '•Ï”‚Ì‰Šú‰»
     Set rng_RteInfoFile = sht_Input.Range(STR_RNG_RTE_INFO_FILE)
-    Set rng_RteCodeFile = sht_Input.Range(STR_RNG_RTE_CODE_FILE)
+    Set rng_RteCodePath = sht_Input.Range(STR_RNG_RTE_CODE_PATH)
     Set rng_RteInfoList = sht_Input.Range(STR_RNG_RTE_INFO_LIST)
     str_ModuleName = ""
     str_Attribute = ""

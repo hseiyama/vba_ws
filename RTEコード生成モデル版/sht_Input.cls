@@ -25,7 +25,7 @@ Private Sub RteCodePath_Click()
         If .Show = 0 Then
             Exit Sub
         End If
-        Me.Range(mdl_Input.STR_RNG_RTE_CODE_FILE).Value = .SelectedItems(1) & "\" & mdl_Main.STR_RTE_FILE
+        Me.Range(mdl_Input.STR_RNG_RTE_CODE_PATH).Value = .SelectedItems(1)
     End With
 End Sub
 
@@ -50,6 +50,20 @@ Private Sub GenerateCode_Click()
     'sht_Output.Activate
     '実行結果の表示
     MsgBox "コード生成処理が完了しました。" & vbCrLf & _
-        Me.Range(mdl_Input.STR_RNG_RTE_CODE_FILE).Value, _
+        Me.Range(mdl_Input.STR_RNG_RTE_CODE_PATH).Value & "\" & mdl_Main.STR_RTE_FILE, _
         vbOKOnly + vbInformation, "コード生成処理"
+End Sub
+
+Private Sub EditRteFile_Click()
+    Dim bln_Rcode As Boolean
+    '既存RTEファイル編集処理
+    bln_Rcode = EditRteExistFile()
+    If bln_Rcode Then
+    '実行結果の表示
+    MsgBox "既存RTEファイル編集処理が完了しました。" & vbCrLf & _
+        Me.Range(mdl_Input.STR_RNG_RTE_CODE_PATH).Value & "\" & mdl_RteFile.STR_FILE_TARGET & vbCrLf & _
+        "追加したインクルード (" & mdl_RteFile.INT_ADD_LINE & "行目)" & vbCrLf & _
+        mdl_RteFile.STR_ADD_TEXT, _
+        vbOKOnly + vbInformation, "既存RTEファイル編集処理"
+    End If
 End Sub
