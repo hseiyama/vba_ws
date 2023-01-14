@@ -55,15 +55,14 @@ Private Sub GenerateCode_Click()
 End Sub
 
 Private Sub EditRteFile_Click()
-    Dim str_MsgTitle As String
+    Const STR_MSG_TITLE As String = "既存RTEファイル編集処理"
     Dim str_FilePath As String
     Dim int_RetCode As Integer
     Dim bln_Rcode As Boolean
     '処理実行の確認
-    str_MsgTitle = "既存RTEファイル編集処理"
     str_FilePath = Me.Range(mdl_Input.STR_RNG_RTE_CODE_PATH).Value & "\" & mdl_RteFile.STR_FILE_TARGET
     int_RetCode = MsgBox("既存RTEファイルを編集しますか？" & vbCrLf & str_FilePath, _
-        vbOKCancel + vbQuestion, str_MsgTitle)
+        vbOKCancel + vbQuestion, STR_MSG_TITLE)
     If int_RetCode = vbOK Then
         '既存RTEファイル編集処理
         bln_Rcode = EditRteExistFile()
@@ -73,7 +72,7 @@ Private Sub EditRteFile_Click()
                 str_FilePath & vbCrLf & _
                 "追加したインクルード (" & mdl_RteFile.INT_ADD_LINE & "行目)" & vbCrLf & _
                 mdl_RteFile.STR_ADD_TEXT, _
-                vbOKOnly + vbInformation, str_MsgTitle
+                vbOKOnly + vbInformation, STR_MSG_TITLE
         End If
     End If
 End Sub
