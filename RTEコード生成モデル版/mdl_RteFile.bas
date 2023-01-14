@@ -13,7 +13,6 @@ Private Const STR_FILE_TEMP As String = "rte_struct.temp"
 Public Function EditRteFile(ByRef str_Path As String) As Boolean
     Dim str_Command As String
     Dim bln_Rcode As Boolean
-    
     'インクルード追加処理
     Call AddInclude(str_Path)
     'コマンド実行（ファイル削除）
@@ -64,7 +63,7 @@ Private Function ExecuteCommand(ByRef str_Command As String) As Boolean
     'コマンドの同期実行
     int_RCode = obj_WShell.Run(Command:="%ComSpec% /c " & str_Command, WindowStyle:=0, WaitOnReturn:=True)
     If int_RCode <> 0 Then
-        MsgBox "コマンドの実行に失敗しました。" & vbCrLf & str_Command, _
+        MsgBox "コマンド実行に失敗しました。" & vbCrLf & str_Command, _
             vbOKOnly + vbCritical, "コマンド実行"
         bln_Rcode = False
     End If
