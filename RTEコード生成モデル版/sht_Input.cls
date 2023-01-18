@@ -32,7 +32,7 @@ End Sub
 Private Sub GetRteInfo_Click()
     Dim int_RetCode As Integer
     'RTE情報取得処理
-    Call mdl_Main.GetRteInfomation
+    Call mdl_Main_RteInfo.Collect
     '次処理の推奨
     int_RetCode = MsgBox("RTE情報取得処理が完了しました。" & vbCrLf & _
         "次の処理「コード生成処理」を継続して実行しますか？", _
@@ -45,33 +45,51 @@ End Sub
 
 Private Sub GenerateCode_Click()
     'コード生成処理
-    Call mdl_Main.GenerateCode
-    'コード生成結果を表示
-    'sht_Output.Activate
-    '実行結果の表示
+    Call mdl_Main_RteModel.Generate
+    '実行結果の表示（GenerateCode）
+    Call GenerateCode_Msgbox(mdl_Main_RteModel.STR_RTE_FILE)
+    'コード生成処理
+    Call mdl_Main_RteCompiler.Generate
+    '実行結果の表示（GenerateCode）
+    Call GenerateCode_Msgbox(mdl_Main_RteCompiler.STR_RTE_FILE)
+End Sub
+
+'実行結果の表示（GenerateCode）
+Private Sub GenerateCode_Msgbox(ByRef str_File As String)
+    Const STR_MSG_TITLE As String = "コード生成処理"
     MsgBox "コード生成処理が完了しました。" & vbCrLf & _
-        Me.Range(mdl_Input.STR_RNG_RTE_CODE_PATH).Value & "\" & mdl_Main.STR_RTE_FILE, _
-        vbOKOnly + vbInformation, "コード生成処理"
+        Me.Range(mdl_Input.STR_RNG_RTE_CODE_PATH).Value & "\" & str_File, _
+        vbOKOnly + vbInformation, STR_MSG_TITLE
 End Sub
 
 Private Sub EditRteFile_Click()
     Const STR_MSG_TITLE As String = "既存RTEファイル編集処理"
     Dim str_FilePath As String
     Dim int_RetCode As Integer
-    Dim bln_Rcode As Boolean
-    '処理実行の確認
-    str_FilePath = Me.Range(mdl_Input.STR_RNG_RTE_CODE_PATH).Value & "\" & mdl_RteFile.STR_FILE_TARGET
+    Dim bln_RCode As Boolean
+    '処理実行の確認(RteStruct)
+    str_FilePath = Me.Range(mdl_Input.STR_RNG_RTE_CODE_PATH).Value & "\" & mdl_Main_RteFile.STR_RTE_STRUCT
     int_RetCode = MsgBox("既存RTEファイルを編集しますか？" & vbCrLf & str_FilePath, _
         vbOKCancel + vbQuestion, STR_MSG_TITLE)
     If int_RetCode = vbOK Then
-        '既存RTEファイル編集処理
-        bln_Rcode = EditRteExistFile()
-        If bln_Rcode Then
+        'RTEファイル編集処理(RteStruct)
+        bln_RCode = mdl_Main_RteFile.EditRteStruct()
+        If bln_RCode Then
             '実行結果の表示
-            MsgBox "既存RTEファイル編集処理が完了しました。" & vbCrLf & _
-                str_FilePath & vbCrLf & _
-                "追加したインクルード (" & mdl_RteFile.INT_ADD_LINE & "行目)" & vbCrLf & _
-                mdl_RteFile.STR_ADD_TEXT, _
+            MsgBox "既存RTEファイル編集処理が完了しました。" & vbCrLf & str_FilePath, _
+                vbOKOnly + vbInformation, STR_MSG_TITLE
+        End If
+    End If
+    '処理実行の確認(RteType)
+    str_FilePath = Me.Range(mdl_Input.STR_RNG_RTE_CODE_PATH).Value & "\" & mdl_Main_RteFile.STR_RTE_TYPE
+    int_RetCode = MsgBox("既存RTEファイルを編集しますか？" & vbCrLf & str_FilePath, _
+        vbOKCancel + vbQuestion, STR_MSG_TITLE)
+    If int_RetCode = vbOK Then
+        'RTEファイル編集処理(RteType)
+        bln_RCode = mdl_Main_RteFile.EditRteType()
+        If bln_RCode Then
+            '実行結果の表示
+            MsgBox "既存RTEファイル編集処理が完了しました。" & vbCrLf & str_FilePath, _
                 vbOKOnly + vbInformation, STR_MSG_TITLE
         End If
     End If

@@ -1,4 +1,4 @@
-Attribute VB_Name = "mdl_RteInfo"
+Attribute VB_Name = "mdl_Main_RteInfo"
 Option Explicit
 
 '外部定数
@@ -20,8 +20,18 @@ Private int_Range_Row As Integer
 Private int_Row As Integer
 Private bln_First As Boolean
 
+'RTE情報取得処理
+Public Sub Collect()
+    '初期化処理
+    Call Initialize
+    'RTE情報設定処理
+    Call SetRteInfomation
+End Sub
+
 '初期化処理
-Public Sub Init()
+Private Sub Initialize()
+    '各モジュールの初期化処理
+    Call mdl_Input.Init
     '変数の初期化
     int_Range_Row = 1
     int_Row = INT_ROW_START
@@ -29,20 +39,20 @@ Public Sub Init()
 End Sub
 
 'RTE情報設定処理
-Public Sub SetRteInfomation(ByRef str_FileName, ByRef obj_Range As Range)
+Private Sub SetRteInfomation()
     Dim obj_Book As Workbook
     Dim obj_Sheet As Worksheet
     'シート範囲のクリア
-    obj_Range.ClearContents
+    mdl_Input.rng_RteInfoList.ClearContents
     'RTE情報ファイルの全情報を検索
-    Set obj_Book = Workbooks.Open(str_FileName)
+    Set obj_Book = Workbooks.Open(mdl_Input.rng_RteInfoFile.Value)
     For Each obj_Sheet In obj_Book.Worksheets
         '対象シートの判別
         If obj_Sheet.Range(STR_RNG_SHEET_CHECK) = STR_SHEET_CHECK Then
             int_Row = INT_ROW_START
             bln_First = False
             'RTE情報検索処理
-            Do While SearchRteInfo(obj_Range, obj_Sheet)
+            Do While SearchRteInfo(obj_Sheet, mdl_Input.rng_RteInfoList)
             Loop
         End If
     Next
@@ -50,7 +60,7 @@ Public Sub SetRteInfomation(ByRef str_FileName, ByRef obj_Range As Range)
 End Sub
 
 'RTE情報検索処理
-Private Function SearchRteInfo(ByRef obj_Range As Range, ByRef obj_Sheet As Worksheet) As Boolean
+Private Function SearchRteInfo(ByRef obj_Sheet As Worksheet, ByRef obj_Range As Range) As Boolean
     '各項目の読込み
     If obj_Sheet.Cells(int_Row, INT_COL_ATTRIBUTE).Value = STR_ATTRIB_READ _
     Or obj_Sheet.Cells(int_Row, INT_COL_ATTRIBUTE).Value = STR_ATTRIB_WRITE Then
@@ -68,10 +78,12 @@ Private Function SearchRteInfo(ByRef obj_Range As Range, ByRef obj_Sheet As Work
     End If
     '検索終了の判定
     If obj_Sheet.Cells(int_Row, INT_COL_ATTRIBUTE).Value <> "END" Then
-        SearchRteInfo = True
         '次の行へ移動
         int_Row = int_Row + 1
+        '戻り値の設定
+        SearchRteInfo = True
     Else
+        '戻り値の設定
         SearchRteInfo = False
     End If
 End Function
