@@ -74,9 +74,9 @@ Private Sub MakeRteFunc()
         str_MacroText = MakeMacroText
         'テキスト書込み処理
         Call obj_TextWriter.WriteText("/* " & str_Comment & " */")
-        Call obj_TextWriter.WriteText("SdtType " & str_FnucText & " {")
+        Call obj_TextWriter.WriteText("Std_ReturnType " & str_FnucText & " {")
         Call obj_TextWriter.WriteText("    " & str_MacroText & ";")
-        Call obj_TextWriter.WriteText("    return STD_OK;")
+        Call obj_TextWriter.WriteText("    return RTE_E_OK;")
         Call obj_TextWriter.WriteText("}")
         Call obj_TextWriter.WriteText("")
     Loop
@@ -84,7 +84,19 @@ End Sub
 
 'コメント作成
 Private Function MakeComment() As String
-    MakeComment = mdl_Input.str_ModuleName & "(" & mdl_Input.str_DataName & ")"
+    Dim str_Command As String
+    Dim str_Param As String
+    '各文字列の作成
+    If mdl_Input.str_Attribute = mdl_Main_RteInfo.STR_ATTRIB_READ Then
+        str_Command = "READ"
+    ElseIf mdl_Input.str_Attribute = mdl_Main_RteInfo.STR_ATTRIB_WRITE Then
+        str_Command = "WRITE"
+    Else
+        str_Command = "UNKNOWN"
+    End If
+    'コメント文字列の作成
+    MakeComment = mdl_Input.str_ModuleName & " RTE " & str_Command & _
+                "(" & mdl_Input.str_DataName & ":" & mdl_Input.str_Description & ")"
 End Function
 
 '関数文字列作成
@@ -107,9 +119,8 @@ Private Function MakeFnucText() As String
         str_Param = "u"
     End If
     '関数文字列の作成
-    MakeFnucText = mdl_Input.str_ModuleName & "_" & _
-                str_Command & "_" & _
-                mdl_Input.str_Prefix & "_g_" & mdl_Input.str_DataName & _
+    MakeFnucText = "Rte_" & str_Command & "_" & mdl_Input.str_ModuleName & "_" & _
+                mdl_Input.str_Prefix & "_g_" & mdl_Input.str_DataName & "_" & _
                 mdl_Input.str_Prefix & "_g_" & mdl_Input.str_DataName & _
                 "(" & mdl_Input.str_DataType & " " & str_Param & ")"
 End Function
@@ -134,8 +145,7 @@ Private Function MakeMacroText() As String
         str_Param = "u"
     End If
     'マクロ文字列の作成
-    MakeMacroText = LCase(mdl_Input.str_ModuleName) & "_" & _
-                str_Command & "_" & _
-                mdl_Input.str_DataName & _
+    MakeMacroText = "rte_" & str_Command & "_" & _
+                LCase(mdl_Input.str_DataName) & _
                 "(" & str_Param & ")"
 End Function

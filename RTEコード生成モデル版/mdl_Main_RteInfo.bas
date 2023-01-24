@@ -2,18 +2,18 @@ Attribute VB_Name = "mdl_Main_RteInfo"
 Option Explicit
 
 '外部定数
-Public Const STR_ATTRIB_READ As String = "SWC_I/F入力"
-Public Const STR_ATTRIB_WRITE As String = "SWC_I/F出力"
+Public Const STR_ATTRIB_READ As String = "SWC外部入力IF"
+Public Const STR_ATTRIB_WRITE As String = "SWC外部出力"
 
 '内部定数
-Private Const INT_ROW_START As Integer = 3
+Private Const INT_ROW_START As Integer = 6
 Private Const INT_COL_ATTRIBUTE As Integer = 3
 Private Const INT_COL_DATA_TYPE As Integer = 4
 Private Const INT_COL_DATA_NAME As Integer = 5
 Private Const INT_COL_DESCRIPTION As Integer = 6
-Private Const STR_RNG_SHEET_CHECK As String = "E1"
-Private Const STR_RNG_MODULE_NAME As String = "D2"
-Private Const STR_SHEET_CHECK As String = "SWC_I/F情報"
+Private Const STR_RNG_SHEET_CHECK As String = "D1"
+Private Const STR_RNG_MODULE_NAME As String = "D5"
+Private Const STR_SHEET_CHECK As String = "SWCIF"
 
 '内部変数
 Private int_Range_Row As Integer
