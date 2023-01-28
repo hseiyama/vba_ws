@@ -36,6 +36,7 @@ Public Sub Init(ByRef obj_Sheet As Worksheet)
     m_intRowHeader = INT_ROW_START
     m_intRowFooter = INT_ROW_START
     m_intRowInsert = INT_ROW_START
+    bln_State = False
     str_Text = ""
     int_Line = 0
 End Sub
